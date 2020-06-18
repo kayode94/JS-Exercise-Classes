@@ -41,8 +41,33 @@ class Airplane {
 */
 
 class Person {
+  constructor(name, age, stomach){
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  }
+  eat(food){
+    if(this.stomach.length < 10){
+      this.stomach.push(food)
+    }
+  }
+  poop(){
+    this.stomach = [];
+  }
+  toString(){
+    return `${this.name}, ${this.age}`;
+  }
+};
 
-}
+const newPerson = new Person({
+  name: 'Kay',
+  age: 25
+});
+
+
+// console.log(newPerson);
+// console.log(newPerson.toString());
+// console.log(newPerson.eat(9));
 
 /*
   TASK 2
@@ -59,7 +84,25 @@ class Person {
 */
 
 class Car {
-
+  constructor(model, milesPerGallon){
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+  fill(gallons){
+    this.tank += gallons;
+  }
+  drive(distance){
+//if statement conditional that determines if the distance/mpg is greater than tank
+// will return out of fuel at odometer
+if(distance / this.milesPerGallon > this.tank){
+  this.drive(this.milesPerGallon * this.tank);
+  return `I ran out of fuel at ${this.odometer}`;
+}
+//just add distance to odometer and tank will subtract distance/mpg
+this.odometer += distance;
+this.tank -= distance / this.milesPerGallon;
 }
 
 /*
@@ -74,9 +117,18 @@ class Car {
         + Speaking should return a phrase `Hello my name is {name}, I am from {location}`.
         + {name} and {location} of course come from the instance's own properties.
 */
-class Lambdasian {
-
+class Lambdasian{
+  constructor(name, age, location){
+    this.name = name;
+    this.age = age;
+    this.location = location; 
+  }
+  speak(){
+    return `Hello my name is ${this.name}, I am from ${this.location}`
+  }
 }
+
+
 
 /*
   TASK 4
@@ -92,8 +144,19 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
-
+class Instructor extends Lambdasian{
+  constructor(name, age, location, specialty, favLanguage, catchPhrase){
+    super(name, age, location);
+    this.specialty = specialty;
+    this.favLanguage = favLanguage;
+    this.catchPhrase = catchPhrase;
+  }
+  demo(subject){
+    return `Today we are learning about ${subject}`
+  }
+  grade({student}, subject){
+    return `${student.name} receives a perfect score on ${subject}`;
+  }
 }
 
 /*
@@ -111,9 +174,25 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
-
+class Student extends Lambdasian{
+  constructor(name, age, location, specialty, favLanguage, catchPhrase, previousBackground, className, favSubjects){
+    super(name, age, location);
+    this.previousBackground = previousBackground;
+    this.className = className;
+    this.favSubjects = favSubjects;
+  }  
+  listSubjects(){
+    return this.favSubjects.toString();
+  }
+  PRAssignments(subject){
+    return `${student.name} has submitted a PR for ${subject}`;
+  }
+  sprintChallenge(subject){
+    return `${student.name} has begun sprint challenge on ${subject}`;
+  }
 }
+
+const myself = new Student('Kay', 26, 'NY', 'JS', 'HTML', 'We can do this!', 'Codecademy', 'Web33', ['HTML', 'CSS', 'JS']);
 
 /*
   TASK 6
@@ -128,9 +207,21 @@ class Student {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-
+class ProjectManager extends Instructor{
+  constructor(name, age, location, specialty, favLanguage, catchPhrase, gradClassName, favInstructor){
+    super(name, age, location);
+    this.gradClassName = gradClassName;
+    this.favInstructor = favInstructor;
+  }
+  standUp(channel){
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  }
+  debugsCode({student}, subject){
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
+  }
 }
+
+const kiara = new ProjectManager('Kiara', 26, 'NY', 'Schools', 'Spanish', 'Come on', 'Albany', 'Leslie');
 
 /*
   STRETCH PROBLEM (no tests!)
